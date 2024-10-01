@@ -30,6 +30,27 @@ ARGUMENTS = [
         default_value="",
         description="The world path, by default is empty.world",
     ),
+    # Declare launch arguments for robot spawn position
+    DeclareLaunchArgument(
+        "x",
+        default_value="0.0",
+        description="The x-coordinate of the robot spawn position",
+    ),
+    DeclareLaunchArgument(
+        "y",
+        default_value="0.0",
+        description="The y-coordinate of the robot spawn position",
+    ),
+    DeclareLaunchArgument(
+        "z",
+        default_value="0.0",
+        description="The z-coordinate of the robot spawn position",
+    ),
+    DeclareLaunchArgument(
+        "yaw",
+        default_value="0.0",
+        description="The yaw of the robot spawn position",
+    ),
 ]
 
 
@@ -122,10 +143,10 @@ def generate_launch_description():
             "jackal",
             "-topic",
             "robot_description",
-            "-x 0.0",
-            "-y 0.0",
-            "-z 0.0",
-            "-Y 0.0",
+            "-x", LaunchConfiguration("x"),
+            "-y", LaunchConfiguration("y"),
+            "-z", LaunchConfiguration("z"),
+            "-Y", LaunchConfiguration("yaw"),
         ],
         output="screen",
     )
