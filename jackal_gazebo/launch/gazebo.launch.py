@@ -14,7 +14,6 @@ from launch.substitutions import (
     FindExecutable,
     LaunchConfiguration,
     PathJoinSubstitution,
-    PythonExpression,
 )
 from launch.event_handlers import OnProcessExit
 from launch_ros.actions import Node
@@ -45,6 +44,16 @@ ARGUMENTS = [
         default_value="True",
         description="Whether to use the collision sensor",
     ),
+    DeclareLaunchArgument(
+        "use_lidar_gpu",
+        default_value="False",
+        description="Whether to use the GPU for the lidar",
+    ),
+    DeclareLaunchArgument(
+        "headless",
+        default_value="False",
+        description="Whether to run Gazebo in headless mode",
+    ),
 ]
 
 
@@ -67,7 +76,6 @@ def generate_launch_description():
     use_gazebo_controllers = LaunchConfiguration("use_gazebo_controllers")
     use_collision_sensor = LaunchConfiguration("use_collision_sensor")
     use_sim_time = LaunchConfiguration("use_sim_time", default="True")
-    gui = LaunchConfiguration("gui", default="True")
     headless = LaunchConfiguration("headless", default="False")
 
     config_jackal_velocity_controller = PathJoinSubstitution(
@@ -95,6 +103,9 @@ def generate_launch_description():
         " ",
         "use_collision_sensor:=",
         use_collision_sensor,
+        " ",
+        "use_lidar_gpu:=",
+        use_sim_time,
         " ",
         "gazebo_sim:=True",
         " ",
@@ -133,7 +144,7 @@ def generate_launch_description():
 
     gzclient = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([gz_client_launch_file]),
-        condition=IfCondition(PythonExpression([gui, " and not ", headless])),
+        condition=UnlessCondition(headless),
         launch_arguments={"use_sim_time": use_sim_time}.items(),
     )
 
