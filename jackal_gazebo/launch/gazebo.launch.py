@@ -76,6 +76,7 @@ def generate_launch_description():
     use_gazebo_controllers = LaunchConfiguration("use_gazebo_controllers")
     use_collision_sensor = LaunchConfiguration("use_collision_sensor")
     use_sim_time = LaunchConfiguration("use_sim_time", default="True")
+    use_lidar_gpu = LaunchConfiguration("use_lidar_gpu")
     headless = LaunchConfiguration("headless", default="False")
 
     config_jackal_velocity_controller = PathJoinSubstitution(
@@ -105,7 +106,7 @@ def generate_launch_description():
         use_collision_sensor,
         " ",
         "use_lidar_gpu:=",
-        use_sim_time,
+        use_lidar_gpu,
         " ",
         "gazebo_sim:=True",
         " ",
@@ -270,6 +271,6 @@ def generate_launch_description():
     ld.add_action(spawn_robot)
     ld.add_action(launch_jackal_control)
     ld.add_action(launch_jackal_teleop_base)
-    ld.add_action(stop_jackal)
+    # ld.add_action(stop_jackal)
 
     return ld
