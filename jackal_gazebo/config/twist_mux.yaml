@@ -1,4 +1,6 @@
-twist_mux:
+# /** wildcard so the params load regardless of the node's namespace
+# (e.g. /jackal/twist_mux, /jackal1/twist_mux), not just a root-level twist_mux.
+/**:
   ros__parameters:
     use_sim_time: true
     topics:
